@@ -11,9 +11,6 @@
 
   Are totally free!
 
-  If you have enjoyed the project and would like to help with a donation via PayPal, follow the link:
-  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N9LKUWQFK6YZ4
-
 
 }
 

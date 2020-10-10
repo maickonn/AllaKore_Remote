@@ -787,6 +787,7 @@ var
   FoldersAndFiles: TStringList;
   L              : TListItem;
   FileToUpload   : TFileStream;
+  hDesktop       : HDESK;
 
 begin
   inherited;
@@ -807,6 +808,11 @@ begin
 
       // Received data, then resets the timeout
       Timeout := 0;
+
+      // EUREKA: This is the responsable to interact with UAC. But we need run
+      // the software on SYSTEM account to work.
+      hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
+      SetThreadDesktop(hDesktop);
 
       // If receive ID, are Online
       Position := Pos('<|ID|>', Buffer);
@@ -1453,7 +1459,9 @@ begin
         frm_Main.Files_Socket.Socket.SendStream(FileToUpload);
       end;
 
-    except
+    finally
+      if hDesktop <> 0 then
+        CloseHandle(hDesktop);
     end;
 
   end;
@@ -1462,6 +1470,7 @@ end;
 procedure TThread_Connection_Keyboard.Execute;
 var
   Buffer: string;
+  hDesktop: HDESK;
 begin
 
   try
@@ -1475,6 +1484,11 @@ begin
         Continue;
 
       Buffer := Socket.ReceiveText;
+
+      // EUREKA: This is the responsable to interact with UAC. But we need run
+      // the software on SYSTEM account to work.
+      hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
+      SetThreadDesktop(hDesktop);
 
       // Combo Keys
       if Buffer.Contains('<|ALTDOWN|>') then
@@ -1528,7 +1542,9 @@ begin
 
     end;
 
-  except
+  finally
+    if hDesktop <> 0 then
+      CloseHandle(hDesktop);
   end;
 
 end;
@@ -1545,6 +1561,7 @@ var
   UnPackStream: TMemoryStream;
   MyCompareBmp: TMemoryStream;
   MySecondBmp : TMemoryStream;
+  hDesktop    : HDESK;
 
 begin
   inherited;
@@ -1621,11 +1638,21 @@ begin
 
             end;
 
-            Synchronize(
+            // EUREKA: This is the responsable to interact with UAC. But we need run
+            // the software on SYSTEM account to work.
+            hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
+            SetThreadDesktop(hDesktop);
+
+            // Workaround to run on change from secure desktop to default.
+            try
+              GetScreenToMemoryStream(false, MySecondBmp);
+            except
+              Synchronize(
               procedure
               begin
                 GetScreenToMemoryStream(false, MySecondBmp);
               end);
+            end;
 
             CompareStream(MyFirstBmp, MySecondBmp, MyCompareBmp);
 
@@ -1754,6 +1781,8 @@ begin
     FreeAndNil(MyCompareBmp);
     FreeAndNil(PackStream);
 
+    if hDesktop <> 0 then
+      CloseHandle(hDesktop);
   end;
 
 end;

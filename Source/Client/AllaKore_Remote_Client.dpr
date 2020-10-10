@@ -5,6 +5,7 @@ uses
   Windows,
   SysUtils,
   ShellAPI,
+  Classes,
   Form_Main in 'Form_Main.pas' {frm_Main},
   Form_Password in 'Form_Password.pas' {frm_Password},
   Form_RemoteScreen in 'Form_RemoteScreen.pas' {frm_RemoteScreen},
@@ -32,14 +33,35 @@ begin
    RaiseLastOSError;
 end;
 
+procedure ExtractRunAsSystem;
+var
+  resource: TResourceStream;
+begin
+  resource := TResourceStream.Create(HInstance, 'RUN_AS_SYSTEM', RT_RCDATA);
+  try
+    resource.SaveToFile(ExtractFilePath(ParamStr(0)) + '\RunAsSystem.exe');
+  finally
+    FreeAndNil(resource);
+  end;
+end;
+
 begin
   Application.Initialize;
 
+  // Workaround to run on SYSTEM account. This is necessary in order to be able to interact with UAC.
+  {$IFNDEF DEBUG}
   if not UpperCase(WUserName).Contains('SYSTEM') then
   begin
+    ExtractRunAsSystem;
     ShellExecute(0, 'open', PChar(ExtractFilePath(ParamStr(0)) + '\RunAsSystem.exe'), PChar(Application.ExeName), nil, SW_HIDE);
     Application.Terminate;
+  end
+  else
+  begin
+    Sleep(1000);
+    DeleteFile(ExtractFilePath(ParamStr(0)) + '\RunAsSystem.exe');
   end;
+  {$ENDIF}
 
   Application.MainFormOnTaskbar := True;
   Application.Title := 'AllaKore Remote';

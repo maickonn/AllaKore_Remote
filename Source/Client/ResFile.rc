@@ -1,1 +1,2 @@
 BEEP WAVE "Resources\MessageBeep.wav"
+RUN_AS_SYSTEM RCDATA "Resources\RunAsSystem.exe"

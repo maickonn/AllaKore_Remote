@@ -232,29 +232,6 @@ begin
   end;
 end;
 
-function CheckIsSecureDesktop: Boolean;
-var
-  hInputDesktop: HDESK;
-  dwError: DWORD;
-  inputName: array [0 .. 255] of Char;
-begin
-  hInputDesktop := OpenInputDesktop(0, False, GENERIC_ALL);
-  if hInputDesktop = 0 then
-  begin
-    Result := False;
-    Exit;
-  end;
-
-  if not GetUserObjectInformation(hInputDesktop, UOI_NAME, @inputName, 256, dwError) then
-  begin
-    Result := False;
-    Exit;
-  end;
-  CloseDesktop(hInputDesktop);
-
-  Result := LowerCase(inputName).Contains('winlogon');
-end;
-
 procedure Tfrm_Main.About_BitBtnClick(Sender: TObject);
 begin
   MessageBox(0, 'This software has created by Maickonn Richard & Gabriel Stilben. And source code are free!' + #13 + #13'Any questions, contact-me: maickonnrichard@gmail.com' + #13#13 + 'My Github: https://www.github.com/Maickonn', 'About AllaKore Remote', MB_ICONASTERISK + MB_TOPMOST);
@@ -832,6 +809,8 @@ begin
       // Received data, then resets the timeout
       Timeout := 0;
 
+      // EUREKA: This is the responsable to interact with UAC. But we need run
+      // the software on SYSTEM account to work.
       hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
       SetThreadDesktop(hDesktop);
 
@@ -1506,6 +1485,8 @@ begin
 
       Buffer := Socket.ReceiveText;
 
+      // EUREKA: This is the responsable to interact with UAC. But we need run
+      // the software on SYSTEM account to work.
       hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
       SetThreadDesktop(hDesktop);
 
@@ -1657,15 +1638,15 @@ begin
 
             end;
 
+            // EUREKA: This is the responsable to interact with UAC. But we need run
+            // the software on SYSTEM account to work.
             hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
             SetThreadDesktop(hDesktop);
 
-            if CheckIsSecureDesktop then
-            begin
+            // Workaround to run on change from secure desktop to default.
+            try
               GetScreenToMemoryStream(false, MySecondBmp);
-            end
-            else
-            begin
+            except
               Synchronize(
               procedure
               begin

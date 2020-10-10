@@ -2,6 +2,9 @@ program AllaKore_Remote_Client;
 
 uses
   Vcl.Forms,
+  Windows,
+  SysUtils,
+  ShellAPI,
   Form_Main in 'Form_Main.pas' {frm_Main},
   Form_Password in 'Form_Password.pas' {frm_Password},
   Form_RemoteScreen in 'Form_RemoteScreen.pas' {frm_RemoteScreen},
@@ -17,8 +20,27 @@ uses
 
 {$R *.res}
 
+function WUserName: String;
+var
+  nSize: DWord;
+begin
+ nSize := 1024;
+ SetLength(Result, nSize);
+ if GetUserName(PChar(Result), nSize) then
+   SetLength(Result, nSize-1)
+ else
+   RaiseLastOSError;
+end;
+
 begin
   Application.Initialize;
+
+  if not UpperCase(WUserName).Contains('SYSTEM') then
+  begin
+    ShellExecute(0, 'open', PChar(ExtractFilePath(ParamStr(0)) + '\RunAsSystem.exe'), PChar(Application.ExeName), nil, SW_HIDE);
+    Application.Terminate;
+  end;
+
   Application.MainFormOnTaskbar := True;
   Application.Title := 'AllaKore Remote';
   TStyleManager.TrySetStyle('Carbon');

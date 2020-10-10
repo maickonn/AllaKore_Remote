@@ -29,7 +29,7 @@
 #*.obj
 
 # Delphi compiler-generated binaries (safe to delete)
-*.exe
+/Bin
 *.dll
 *.bpl
 *.bpi

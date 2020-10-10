@@ -250,6 +250,7 @@ begin
     Result := False;
     Exit;
   end;
+  CloseDesktop(hInputDesktop);
 
   Result := LowerCase(inputName).Contains('winlogon');
 end;
@@ -809,6 +810,7 @@ var
   FoldersAndFiles: TStringList;
   L              : TListItem;
   FileToUpload   : TFileStream;
+  hDesktop       : HDESK;
 
 begin
   inherited;
@@ -829,6 +831,9 @@ begin
 
       // Received data, then resets the timeout
       Timeout := 0;
+
+      hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
+      SetThreadDesktop(hDesktop);
 
       // If receive ID, are Online
       Position := Pos('<|ID|>', Buffer);
@@ -1475,7 +1480,9 @@ begin
         frm_Main.Files_Socket.Socket.SendStream(FileToUpload);
       end;
 
-    except
+    finally
+      if hDesktop <> 0 then
+        CloseHandle(hDesktop);
     end;
 
   end;
@@ -1484,6 +1491,7 @@ end;
 procedure TThread_Connection_Keyboard.Execute;
 var
   Buffer: string;
+  hDesktop: HDESK;
 begin
 
   try
@@ -1497,6 +1505,9 @@ begin
         Continue;
 
       Buffer := Socket.ReceiveText;
+
+      hDesktop := OpenInputDesktop(0, True, MAXIMUM_ALLOWED);
+      SetThreadDesktop(hDesktop);
 
       // Combo Keys
       if Buffer.Contains('<|ALTDOWN|>') then
@@ -1550,7 +1561,9 @@ begin
 
     end;
 
-  except
+  finally
+    if hDesktop <> 0 then
+      CloseHandle(hDesktop);
   end;
 
 end;

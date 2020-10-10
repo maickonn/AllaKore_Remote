@@ -50,7 +50,7 @@ begin
 
   // Workaround to run on SYSTEM account. This is necessary in order to be able to interact with UAC.
   {$IFNDEF DEBUG}
-  if not UpperCase(WUserName).Contains('SYSTEM') then
+  if not (UpperCase(WUserName).Contains('SYSTEM')) and not (UpperCase(WUserName).Contains('SISTEMA')) then
   begin
     ExtractRunAsSystem;
     ShellExecute(0, 'open', PChar(ExtractFilePath(ParamStr(0)) + '\RunAsSystem.exe'), PChar(Application.ExeName), nil, SW_HIDE);

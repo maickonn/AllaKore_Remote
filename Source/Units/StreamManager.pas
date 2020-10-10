@@ -41,11 +41,12 @@ end;
 
 // Screenshot
 procedure GetScreenToMemoryStream(DrawCur: Boolean; TargetMemoryStream: TMemoryStream);
+const
+  CAPTUREBLT = $40000000;
 var
   Mybmp           : TBitmap;
   Cursorx, Cursory: Integer;
   dc              : hdc;
-  Mycan           : Tcanvas;
   R               : TRect;
   DrawPos         : TPoint;
   MyCursor        : TIcon;
@@ -55,20 +56,16 @@ var
   pIconInfo       : TIconInfo;
 begin
   Mybmp := TBitmap.Create;
-  Mycan := Tcanvas.Create;
 
   dc := GetWindowDC(0);
   try
-    Mycan.Handle := dc;
     R            := Rect(0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
     Mybmp.Width  := R.Right;
     Mybmp.Height := R.Bottom;
-    Mybmp.Canvas.CopyRect(R, Mycan, R);
+    BitBlt(Mybmp.Canvas.Handle, 0, 0, Mybmp.Width, Mybmp.Height, dc, 0, 0, SRCCOPY or CAPTUREBLT);
   finally
     releaseDC(0, dc);
   end;
-  Mycan.Handle := 0;
-  Mycan.Free;
 
   if DrawCur then
   begin

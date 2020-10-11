@@ -1610,18 +1610,7 @@ begin
 
           while Socket.Connected do
           begin
-
-            with frm_Main do
-            begin
-
-              // Streaming Images is relative to ping. This reduces CPU consumption.
-              if MyPing > 60 then
-                Sleep(MyPing div 2)
-              else
-                Sleep(30);
-              //
-
-            end;
+            Sleep(ProcessingSlack);
 
             // EUREKA: This is the responsable to interact with UAC. But we need run
             // the software on SYSTEM account to work.

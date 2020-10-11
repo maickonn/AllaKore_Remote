@@ -1655,29 +1655,6 @@ begin
 
         end;
 
-        if Buffer.Contains('<|GETPARTSCREENSHOT|>') then // Deprecated
-        begin
-
-          Synchronize(
-            procedure
-            begin
-              GetScreenToMemoryStream(false, MySecondBmp);
-            end);
-
-          CompareStream(MyFirstBmp, MySecondBmp, MyCompareBmp);
-
-          MyCompareBmp.Position := 0;
-          PackStream.LoadFromStream(MyCompareBmp);
-
-          CompressStreamWithZLib(PackStream);
-
-          PackStream.Position := 0;
-
-          while Socket.SendText('<|IMAGE|>' + MemoryStreamToString(PackStream) + '<|END|>') < 0 do
-            Sleep(ProcessingSlack);
-
-        end;
-
         // Processes all Buffer that is in memory.
         while Buffer.Contains('<|END|>') do
         begin

@@ -1303,8 +1303,6 @@ begin
               end;
               frm_ShareFiles.Caption := 'Share Files - ' + IntToStr(frm_ShareFiles.ShareFiles_ListView.Items.count) + ' Items found';
             end);
-
-          Sleep(5); // Effect
         end;
         FreeAndNil(FoldersAndFiles);
 
@@ -1380,8 +1378,6 @@ begin
 
               frm_ShareFiles.Caption := 'Share Files - ' + IntToStr(frm_ShareFiles.ShareFiles_ListView.Items.count) + ' Items found';
             end);
-
-          Sleep(5); // Effect
         end;
         FreeAndNil(FoldersAndFiles);
 
@@ -1430,7 +1426,7 @@ begin
         Synchronize(
           procedure
           begin
-            MessageBox(0, 'File sent!', 'AllaKore Remote - Share Files', MB_ICONASTERISK + MB_TOPMOST);
+            MessageBox(0, 'The file was successfully sent.', 'AllaKore Remote - Share Files', MB_ICONASTERISK + MB_TOPMOST);
           end);
       end;
 
@@ -1882,7 +1878,7 @@ begin
                   frm_ShareFiles.Download_ProgressBar.Position := 0;
                   frm_ShareFiles.Download_BitBtn.Enabled := true;
                   frm_ShareFiles.SizeDownload_Label.Caption := 'Size: 0 B / 0 B';
-                  MessageBox(0, 'Download complete!', 'AllaKore Remote - Share Files', MB_ICONASTERISK + MB_TOPMOST);
+                  MessageBox(0, 'The download was completed successfully.', 'AllaKore Remote - Share Files', MB_ICONASTERISK + MB_TOPMOST);
                 end);
 
             ReceivingFile := False;

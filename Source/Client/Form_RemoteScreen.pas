@@ -42,7 +42,6 @@ type
     procedure Chat_ImageClick(Sender: TObject);
     procedure FileShared_ImageClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure Screen_ImageDblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
@@ -464,14 +463,6 @@ procedure Tfrm_RemoteScreen.Resize_CheckBoxKeyDown(Sender: TObject; var Key: Wor
 begin
   if Key = VK_SPACE then
     Key := 0;
-end;
-
-procedure Tfrm_RemoteScreen.Screen_ImageDblClick(Sender: TObject);
-begin
-  if (Active) and (MouseRemote_CheckBox.Checked) then
-  begin
-    frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|SETMOUSEDOUBLECLICK|>');
-  end;
 end;
 
 procedure Tfrm_RemoteScreen.Screen_ImageMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);

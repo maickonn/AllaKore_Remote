@@ -80,8 +80,8 @@ begin
   end
   else
   begin
-    MinMaxInfo^.ptMaxTrackSize.X := frm_Main.ResolutionTargetWidth + 20;
-    MinMaxInfo^.ptMaxTrackSize.Y := frm_Main.ResolutionTargetHeight + 120;
+    MinMaxInfo^.ptMaxTrackSize.X := frm_Main.ResolutionTargetWidth + 25;
+    MinMaxInfo^.ptMaxTrackSize.Y := frm_Main.ResolutionTargetHeight + 130;
   end;
 
 end;

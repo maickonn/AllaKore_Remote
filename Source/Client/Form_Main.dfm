@@ -12909,10 +12909,6 @@ object frm_Main: Tfrm_Main
     Left = 112
     Top = 328
   end
-  object ApplicationEvents1: TApplicationEvents
-    Left = 280
-    Top = 336
-  end
   object Keyboard_Socket: TClientSocket
     Active = False
     ClientType = ctNonBlocking

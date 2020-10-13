@@ -77,7 +77,6 @@ type
     Image3: TImage;
     Main_Socket: TClientSocket;
     Desktop_Socket: TClientSocket;
-    ApplicationEvents1: TApplicationEvents;
     Keyboard_Socket: TClientSocket;
     Files_Socket: TClientSocket;
     Timeout_Timer: TTimer;

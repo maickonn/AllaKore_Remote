@@ -93,10 +93,8 @@ type
     Splitter1: TSplitter;
     Logs_Memo: TMemo;
     Connections_ListView: TListView;
-    ApplicationEvents1: TApplicationEvents;
     Ping_Timer: TTimer;
     Main_ServerSocket: TServerSocket;
-    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure FormCreate(Sender: TObject);
     procedure Ping_TimerTimer(Sender: TObject);
     procedure Main_ServerSocketClientConnect(Sender: TObject; Socket: TCustomWinSocket);
@@ -299,11 +297,6 @@ begin
     Logs_Memo.Lines.Add('--------');
 
   end;
-end;
-
-procedure Tfrm_Main.ApplicationEvents1Exception(Sender: TObject; E: Exception);
-begin
-  RegisterErrorLog('Application Error', E.ClassName, E.Message);
 end;
 
 procedure Tfrm_Main.FormCreate(Sender: TObject);

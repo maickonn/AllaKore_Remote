@@ -73,11 +73,6 @@ object frm_Main: Tfrm_Main
     TabOrder = 0
     ViewStyle = vsReport
   end
-  object ApplicationEvents1: TApplicationEvents
-    OnException = ApplicationEvents1Exception
-    Left = 448
-    Top = 80
-  end
   object Ping_Timer: TTimer
     Interval = 5000
     OnTimer = Ping_TimerTimer

@@ -1574,6 +1574,8 @@ begin
 
       while True do
       begin
+        Sleep(16);
+
         if (Socket = nil) or not (Socket.Connected) then
           Break;
 

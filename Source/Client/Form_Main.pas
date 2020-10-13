@@ -795,10 +795,13 @@ begin
   FoldersAndFiles := nil;
   FileToUpload    := nil;
 
-  while Socket.Connected do
+  while True do
   begin
 
     Sleep(ProcessingSlack); // Avoids using 100% CPU
+
+    if not Socket.Connected then
+        Break;
 
     try
       if Socket.ReceiveLength < 1 then
@@ -1460,10 +1463,13 @@ begin
 
   try
 
-    while Socket.Connected do
+    while True do
     begin
 
       Sleep(ProcessingSlack); // Avoids using 100% CPU
+
+      if not Socket.Connected then
+        Break;
 
       if Socket.ReceiveLength < 1 then
         Continue;
@@ -1755,10 +1761,13 @@ begin
 
   try
 
-    while Socket.Connected do
+    while True do
     begin
 
       Sleep(ProcessingSlack); // Avoids using 100% CPU
+
+      if not Socket.Connected then
+        Break;
 
       try
         if Socket.ReceiveLength < 1 then

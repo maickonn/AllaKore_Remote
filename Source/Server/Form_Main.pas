@@ -775,30 +775,25 @@ var
   i         : Integer;
   Connection: TThreadConnection_Main;
 begin
-  i := 0;
-
-  while i < Connections_ListView.Items.Count do
-  begin
-    try
+  try
+    for i := 0 to Connections_ListView.Items.Count - 1 do
+    begin
+      if Connections_ListView.Items.Item[i].SubItems.Objects[0] = nil then
+        Continue;
 
       Connection := TThreadConnection_Main(Connections_ListView.Items.Item[i].SubItems.Objects[0]);
+      if (Connection.AThread_Main = nil) or not(Connection.AThread_Main.Connected) then
+        Continue;
 
-      // Request Ping
-      if Connection.AThread_Main.Connected then
-      begin
-        Connection.AThread_Main.SendText('<|PING|>');
-        Connection.StartPing := GetTickCount;
+      Connection.AThread_Main.SendText('<|PING|>');
+      Connection.StartPing := GetTickCount;
 
-        if Connections_ListView.Items.Item[i].SubItems[4] <> 'Calculating...' then
-          Connection.AThread_Main.SendText('<|SETPING|>' + IntToStr(Connection.EndPing) + '<|END|>');
-      end;
-
-      Inc(i);
-    except
-      On E: Exception do
-        RegisterErrorLog('Ping Timer', E.ClassName, E.Message);
-
+      if Connections_ListView.Items.Item[i].SubItems[4] <> 'Calculating...' then
+        Connection.AThread_Main.SendText('<|SETPING|>' + IntToStr(Connection.EndPing) + '<|END|>');
     end;
+  except
+    On E: Exception do
+      RegisterErrorLog('Ping Timer', E.ClassName, E.Message);
   end;
 end;
 

@@ -102,6 +102,14 @@ var
   P2: ^AnsiChar;
   P3: ^AnsiChar;
 begin
+  // Check if the resolution has been changed
+  if MyFirstStream.Size <> MySecondStream.Size then
+  begin
+    MyFirstStream.LoadFromStream(MySecondStream);
+    MyCompareStream.LoadFromStream(MySecondStream);
+    Exit;
+  end;
+
   MyCompareStream.Clear;
 
   P1 := MyFirstStream.Memory;
@@ -134,6 +142,15 @@ var
   P2: ^AnsiChar;
   P3: ^AnsiChar;
 begin
+
+  // Check if the resolution has been changed
+  if MyFirstStream.Size <> MyCompareStream.Size then
+  begin
+    MyFirstStream.LoadFromStream(MyCompareStream);
+    MySecondStream.LoadFromStream(MyCompareStream);
+    Exit;
+  end;
+
   P1 := MyFirstStream.Memory;
   MySecondStream.SetSize(MyFirstStream.Size);
   P2 := MySecondStream.Memory;

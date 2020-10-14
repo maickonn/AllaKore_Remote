@@ -1599,6 +1599,10 @@ begin
           end);
         end;
 
+        // Check if the resolution has been changed
+        if MyFirstBmp.Size <> MySecondBmp.Size then
+          frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|RESOLUTION|>' + IntToStr(Screen.Width) + '<|>' + IntToStr(Screen.Height) + '<|END|>');
+
         CompareStream(MyFirstBmp, MySecondBmp, MyCompareBmp);
 
         MyCompareBmp.Position := 0;

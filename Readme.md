@@ -25,7 +25,6 @@ First of all, I apologize for my English because it is not my native language. I
 
 <strong>There are some observations to be taken before opening the project:</strong>
 
-* You should install the native DCLSockets component. Simply open the Delphi XE, click "Component" -> "Install Packages". Now click "Add", now go in the "Bin" folder in the installation of Delphi XE (Example: C:\Program Files (x86)\Embarcadero\Studio\17.0\bin) and open the "dclsocketsXXX.bpl" file. The XXX are numbers according to your version of Delphi.
 * The software requires a central server, I recommend host it on a server inside your country, so there is a low latency.
 * Like any BETA project, this is subject to bugs that will be corrected over time. I count on the cooperation of all.
 * If they can solve any problem, just send the solution that it will be posted.

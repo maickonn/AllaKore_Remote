@@ -79,13 +79,4 @@ object frm_Main: Tfrm_Main
     Left = 360
     Top = 128
   end
-  object Main_ServerSocket: TServerSocket
-    Active = False
-    Port = 0
-    ServerType = stNonBlocking
-    OnClientConnect = Main_ServerSocketClientConnect
-    OnClientError = Main_ServerSocketClientError
-    Left = 464
-    Top = 152
-  end
 end

@@ -27,7 +27,7 @@ type
 
 var
   frm_Password: Tfrm_Password;
-  Canceled    : Boolean;
+  Canceled: Boolean;
 
 implementation
 
@@ -38,15 +38,12 @@ uses
 
 procedure Tfrm_Password.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if (Canceled) then
+  if Canceled then
   begin
-    with frm_Main do
-    begin
-      Status_Image.Picture.Assign(Image3.Picture);
-      Status_Label.Caption      := 'Access canceled.';
-      TargetID_MaskEdit.Enabled := true;
-      Connect_BitBtn.Enabled    := true;
-    end;
+    frm_Main.Status_Image.Picture.Assign(frm_Main.Image3.Picture);
+    frm_Main.Status_Label.Caption := 'Access canceled.';
+    frm_Main.TargetID_MaskEdit.Enabled := true;
+    frm_Main.Connect_BitBtn.Enabled := true;
   end;
 end;
 

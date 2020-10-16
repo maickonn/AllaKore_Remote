@@ -70,9 +70,9 @@ var
 begin
   inherited;
   MinMaxInfo := Message.MinMaxInfo;
-
   MinMaxInfo^.ptMinTrackSize.X := 800; // Minimum Width
   MinMaxInfo^.ptMinTrackSize.Y := 500; // Minimum Height
+
   if (Resize_CheckBox.Checked) then
   begin
     MinMaxInfo^.ptMaxTrackSize.X := frm_Main.ResolutionTargetWidth;
@@ -83,12 +83,10 @@ begin
     MinMaxInfo^.ptMaxTrackSize.X := frm_Main.ResolutionTargetWidth + 25;
     MinMaxInfo^.ptMaxTrackSize.Y := frm_Main.ResolutionTargetHeight + 130;
   end;
-
 end;
 
 procedure Tfrm_RemoteScreen.SendSocketKeys(Keys: string);
 begin
-
   if (Active) then
     frm_Main.Keyboard_Socket.Socket.SendText(Keys);
 end;
@@ -99,7 +97,6 @@ var
 begin
   // The keys programmed here, may not match the keys on your keyboard. I recommend to undertake adaptation.
   try
-
     { Combo }
     if (Active) then
     begin
@@ -347,16 +344,11 @@ begin
               SendSocketKeys('|')
             else
               SendSocketKeys('\');
-
         end;
       end;
-
     end;
-
   except
-
   end;
-
 end;
 
 procedure Tfrm_RemoteScreen.Chat_ImageClick(Sender: TObject);
@@ -371,16 +363,11 @@ end;
 
 procedure Tfrm_RemoteScreen.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-
   frm_ShareFiles.Hide;
   frm_Chat.Hide;
-
   frm_Main.Main_Socket.Socket.SendText('<|STOPACCESS|>');
-
   frm_Main.SetOnline;
-
   frm_Main.Show;
-
 end;
 
 procedure Tfrm_RemoteScreen.FormCreate(Sender: TObject);
@@ -397,14 +384,14 @@ end;
 
 procedure Tfrm_RemoteScreen.FormShow(Sender: TObject);
 begin
-  CtrlPressed  := false;
+  CtrlPressed := false;
   ShiftPressed := false;
-  AltPressed   := false;
+  AltPressed := false;
 end;
 
 procedure Tfrm_RemoteScreen.KeyboardRemote_CheckBoxClick(Sender: TObject);
 begin
-  if (KeyboardRemote_CheckBox.Checked) then
+  if KeyboardRemote_CheckBox.Checked then
   begin
     KeyboardIcon_Image.Picture.Assign(KeyboardIcon_checked_Image.Picture);
     CaptureKeys_Timer.Enabled := true;
@@ -424,7 +411,7 @@ end;
 
 procedure Tfrm_RemoteScreen.MouseRemote_CheckBoxClick(Sender: TObject);
 begin
-  if (MouseRemote_CheckBox.Checked) then
+  if MouseRemote_CheckBox.Checked then
   begin
     MouseIcon_Image.Picture.Assign(MouseIcon_checked_Image.Picture);
   end
@@ -442,21 +429,20 @@ end;
 
 procedure Tfrm_RemoteScreen.Resize_CheckBoxClick(Sender: TObject);
 begin
-  if (Resize_CheckBox.Checked) then
+  if Resize_CheckBox.Checked then
   begin
     Screen_Image.AutoSize := false;
-    Screen_Image.Stretch  := true;
-    Screen_Image.Align    := alClient;
+    Screen_Image.Stretch := true;
+    Screen_Image.Align := alClient;
     ResizeIcon_Image.Picture.Assign(ResizeIcon_checked_Image.Picture);
   end
   else
   begin
     Screen_Image.AutoSize := true;
-    Screen_Image.Stretch  := false;
-    Screen_Image.Align    := alNone;
+    Screen_Image.Stretch := false;
+    Screen_Image.Align := alNone;
     ResizeIcon_Image.Picture.Assign(ResizeIcon_unchecked_Image.Picture);
   end;
-
 end;
 
 procedure Tfrm_RemoteScreen.Resize_CheckBoxKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -471,6 +457,7 @@ begin
   begin
     X := (X * frm_Main.ResolutionTargetWidth) div (Screen_Image.Width);
     Y := (Y * frm_Main.ResolutionTargetHeight) div (Screen_Image.Height);
+
     if (Button = mbLeft) then
       frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|SETMOUSELEFTCLICKDOWN|>' + IntToStr(X) + '<|>' + IntToStr(Y) + '<|END|>')
     else if (Button = mbRight) then

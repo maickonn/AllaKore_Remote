@@ -12889,44 +12889,6 @@ object frm_Main: Tfrm_Main
     Left = 56
     Top = 296
   end
-  object Main_Socket: TClientSocket
-    Active = False
-    ClientType = ctNonBlocking
-    Port = 3898
-    OnConnecting = Main_SocketConnecting
-    OnConnect = Main_SocketConnect
-    OnDisconnect = Main_SocketDisconnect
-    OnError = Main_SocketError
-    Left = 56
-    Top = 344
-  end
-  object Desktop_Socket: TClientSocket
-    Active = False
-    ClientType = ctNonBlocking
-    Port = 0
-    OnConnect = Desktop_SocketConnect
-    OnError = Desktop_SocketError
-    Left = 112
-    Top = 328
-  end
-  object Keyboard_Socket: TClientSocket
-    Active = False
-    ClientType = ctNonBlocking
-    Port = 0
-    OnConnect = Keyboard_SocketConnect
-    OnError = Keyboard_SocketError
-    Left = 168
-    Top = 344
-  end
-  object Files_Socket: TClientSocket
-    Active = False
-    ClientType = ctNonBlocking
-    Port = 0
-    OnConnect = Files_SocketConnect
-    OnError = Files_SocketError
-    Left = 224
-    Top = 328
-  end
   object Timeout_Timer: TTimer
     Enabled = False
     OnTimer = Timeout_TimerTimer

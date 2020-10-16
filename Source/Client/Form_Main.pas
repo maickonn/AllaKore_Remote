@@ -1,5 +1,5 @@
 ﻿{
-
+
 
   This source has created by Maickonn Richard & Gabriel Stilben.
   Any questions, contact-me: maickonnrichard@gmail.com
@@ -75,10 +75,6 @@ type
     Image2: TImage;
     Reconnect_Timer: TTimer;
     Image3: TImage;
-    Main_Socket: TClientSocket;
-    Desktop_Socket: TClientSocket;
-    Keyboard_Socket: TClientSocket;
-    Files_Socket: TClientSocket;
     Timeout_Timer: TTimer;
     About_BitBtn: TBitBtn;
     TargetID_MaskEdit: TMaskEdit;
@@ -102,8 +98,11 @@ type
     procedure About_BitBtnClick(Sender: TObject);
     procedure TargetID_MaskEditKeyPress(Sender: TObject; var Key: Char);
     procedure Clipboard_TimerTimer(Sender: TObject);
-  private
-    { Private declarations }
+  public
+    Main_Socket: TClientSocket;
+    Desktop_Socket: TClientSocket;
+    Keyboard_Socket: TClientSocket;
+    Files_Socket: TClientSocket;
   public
     MyID                  : string;
     MyPassword            : string;
@@ -620,17 +619,40 @@ begin
     _Port := Port;
 
   // Define Host, Port and Timeout of Sockets
+  Main_Socket := TClientSocket.Create(self);
+  Main_Socket.Active := False;
+  Main_Socket.ClientType := ctNonBlocking;
+  Main_Socket.OnConnecting := Main_SocketConnecting;
+  Main_Socket.OnConnect := Main_SocketConnect;
+  Main_Socket.OnDisconnect := Main_SocketDisconnect;
+  Main_Socket.OnError := Main_SocketError;
   Main_Socket.Host := _Host;
   Main_Socket.Port := _Port;
 
+  Desktop_Socket := TClientSocket.Create(self);
+  Desktop_Socket.Active := False;
+  Desktop_Socket.ClientType := ctNonBlocking;
+  Desktop_Socket.OnConnect := Desktop_SocketConnect;
+  Desktop_Socket.OnError := Desktop_SocketError;
   Desktop_Socket.Host := _Host;
   Desktop_Socket.Port := _Port;
 
+  Keyboard_Socket := TClientSocket.Create(self);
+  Keyboard_Socket.Active := False;
+  Keyboard_Socket.ClientType := ctNonBlocking;
+  Keyboard_Socket.OnConnect := Keyboard_SocketConnect;
+  Keyboard_Socket.OnError := Keyboard_SocketError;
   Keyboard_Socket.Host := _Host;
   Keyboard_Socket.Port := _Port;
 
+  Files_Socket := TClientSocket.Create(self);
+  Files_Socket.Active := False;
+  Files_Socket.ClientType := ctNonBlocking;
+  Files_Socket.OnConnect := Files_SocketConnect;
+  Files_Socket.OnError := Files_SocketError;
   Files_Socket.Host := _Host;
   Files_Socket.Port := _Port;
+
   //
   ResolutionTargetWidth  := 986;
   ResolutionTargetHeight := 600;

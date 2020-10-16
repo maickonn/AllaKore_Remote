@@ -1,7 +1,5 @@
 {
 
-
-
   This source has created by Maickonn Richard & Gabriel Stilben.
   Any questions, contact-me: maickonnrichard@gmail.com
 
@@ -10,7 +8,6 @@
   Join our Facebook group: https://www.facebook.com/groups/1202680153082328/
 
   Are totally free!
-
 
 }
 
@@ -94,14 +91,13 @@ type
     Logs_Memo: TMemo;
     Connections_ListView: TListView;
     Ping_Timer: TTimer;
-    Main_ServerSocket: TServerSocket;
     procedure FormCreate(Sender: TObject);
     procedure Ping_TimerTimer(Sender: TObject);
     procedure Main_ServerSocketClientConnect(Sender: TObject; Socket: TCustomWinSocket);
     procedure Main_ServerSocketClientError(Sender: TObject; Socket: TCustomWinSocket; ErrorEvent: TErrorEvent; var ErrorCode: Integer);
 
   private
-    { Private declarations }
+    Main_ServerSocket: TServerSocket;
   public
     { Public declarations }
   end;
@@ -301,6 +297,11 @@ end;
 
 procedure Tfrm_Main.FormCreate(Sender: TObject);
 begin
+  Main_ServerSocket:= TServerSocket.Create(self);
+  Main_ServerSocket.Active := False;
+  Main_ServerSocket.ServerType := stNonBlocking;
+  Main_ServerSocket.OnClientConnect := Main_ServerSocketClientConnect;
+  Main_ServerSocket.OnClientError := Main_ServerSocketClientError;
   Main_ServerSocket.Port   := Port;
   Main_ServerSocket.Active := true;
 
@@ -311,7 +312,6 @@ procedure Tfrm_Main.Main_ServerSocketClientConnect(Sender: TObject; Socket: TCus
 begin
   // Create Defines Thread of Connections
   TThreadConnection_Define.Create(Socket);
-
 end;
 
 procedure Tfrm_Main.Main_ServerSocketClientError(Sender: TObject; Socket: TCustomWinSocket; ErrorEvent: TErrorEvent; var ErrorCode: Integer);

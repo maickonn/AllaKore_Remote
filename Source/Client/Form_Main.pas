@@ -961,6 +961,7 @@ begin
       Delete(BufferTemp, 1, Position + 24);
       Position := Pos('<|>', BufferTemp);
       MousePosX := StrToInt(Copy(BufferTemp, 1, Position - 1));
+      Delete(BufferTemp, 1, Position + 2);
       MousePosY := StrToInt(Copy(BufferTemp, 1, Pos('<|END|>', BufferTemp) - 1));
       SetCursorPos(MousePosX, MousePosY);
       Mouse_Event(MOUSEEVENTF_ABSOLUTE or MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);

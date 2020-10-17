@@ -296,20 +296,22 @@ end;
 procedure Tfrm_Main.Clipboard_TimerTimer(Sender: TObject);
 begin
   try
-    Clipboard.Open;
+    try
+      Clipboard.Open;
 
-    if (Clipboard.HasFormat(CF_TEXT)) then
-    begin
-      if not(OldClipboardText = Clipboard.AsText) then
+      if (Clipboard.HasFormat(CF_TEXT)) then
       begin
-        OldClipboardText := Clipboard.AsText;
-        Main_Socket.Socket.SendText('<|REDIRECT|><|CLIPBOARD|>' + Clipboard.AsText + '<|END|>');
+        if not(OldClipboardText = Clipboard.AsText) then
+        begin
+          OldClipboardText := Clipboard.AsText;
+          Main_Socket.Socket.SendText('<|REDIRECT|><|CLIPBOARD|>' + Clipboard.AsText + '<|END|>');
+        end;
       end;
+    except
     end;
   finally
     Clipboard.Close;
   end;
-
 end;
 
 // Return size (B, KB, MB or GB)

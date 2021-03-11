@@ -39,7 +39,7 @@ type
     { Private declarations }
   public
     DirectoryToSaveFile: string;
-    FileStream         : TFileStream;
+    FileStream: TFileStream;
     { Public declarations }
   end;
 
@@ -56,9 +56,10 @@ uses
 procedure Tfrm_ShareFiles.GoToDirectory(Directory: string);
 begin
   Directory_Edit.Enabled := false;
-  if not(Directory[Length(Directory)] = '\') then
+
+  if not (Directory[Length(Directory)] = '\') then
   begin
-    Directory           := Directory + '\';
+    Directory := Directory + '\';
     Directory_Edit.Text := Directory;
   end;
 
@@ -67,14 +68,15 @@ end;
 
 procedure Tfrm_ShareFiles.Download_BitBtnClick(Sender: TObject);
 begin
-  if (ShareFiles_ListView.ItemIndex = -1) then
+  if ShareFiles_ListView.ItemIndex = -1 then
     exit;
 
   if not(ShareFiles_ListView.Selected.ImageIndex = 0) and not(ShareFiles_ListView.Selected.ImageIndex = 1) then
   begin
     SaveDialog1.FileName := '';
-    SaveDialog1.Filter   := 'File (*' + ExtractFileExt(ShareFiles_ListView.Selected.Caption) + ')|*' + ExtractFileExt(ShareFiles_ListView.Selected.Caption);
-    if (SaveDialog1.Execute()) then
+    SaveDialog1.Filter := 'File (*' + ExtractFileExt(ShareFiles_ListView.Selected.Caption) + ')|*' + ExtractFileExt(ShareFiles_ListView.Selected.Caption);
+
+    if SaveDialog1.Execute() then
     begin
       DirectoryToSaveFile := SaveDialog1.FileName + ExtractFileExt(ShareFiles_ListView.Selected.Caption);
       frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|DOWNLOADFILE|>' + Directory_Edit.Text + ShareFiles_ListView.Selected.Caption + '<|END|>');
@@ -92,7 +94,7 @@ begin
 
   if (ShareFiles_ListView.Selected.ImageIndex = 0) or (ShareFiles_ListView.Selected.ImageIndex = 1) then
   begin
-    if (ShareFiles_ListView.Selected.Caption = 'Return') then
+    if ShareFiles_ListView.Selected.Caption = 'Return' then
     begin
       Directory := Directory_Edit.Text;
       Delete(Directory, Length(Directory), Length(Directory));
@@ -119,20 +121,18 @@ end;
 procedure Tfrm_ShareFiles.Upload_BitBtnClick(Sender: TObject);
 var
   FileName: string;
-  arquivo : TMemoryStream;
+  arquivo: TMemoryStream;
 begin
   OpenDialog1.FileName := '';
-  if (OpenDialog1.Execute()) then
+
+  if OpenDialog1.Execute() then
   begin
-
-    FileStream             := TFileStream.Create(OpenDialog1.FileName, fmOpenRead);
-    FileName               := ExtractFileName(OpenDialog1.FileName);
+    FileStream := TFileStream.Create(OpenDialog1.FileName, fmOpenRead);
+    FileName := ExtractFileName(OpenDialog1.FileName);
     Upload_ProgressBar.Max := FileStream.Size;
-
     frm_Main.Files_Socket.Socket.SendText('<|DIRECTORYTOSAVE|>' + Directory_Edit.Text + FileName + '<|><|SIZE|>' + intToStr(FileStream.Size) + '<|END|>');
     FileStream.Position := 0;
     frm_Main.Files_Socket.Socket.SendStream(FileStream);
-
     Upload_BitBtn.Enabled := false;
   end;
 end;
@@ -164,7 +164,6 @@ var
 begin
   inherited;
   MinMaxInfo := Message.MinMaxInfo;
-
   MinMaxInfo^.ptMinTrackSize.X := 515; // Minimum Width
   MinMaxInfo^.ptMinTrackSize.Y := 460; // Minimum Height
 end;

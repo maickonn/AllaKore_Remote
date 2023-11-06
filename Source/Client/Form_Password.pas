@@ -62,7 +62,7 @@ end;
 
 procedure Tfrm_Password.Ok_BitBtnClick(Sender: TObject);
 begin
-  frm_Main.Main_Socket.Socket.SendText('<|CHECKIDPASSWORD|>' + frm_Main.TargetID_MaskEdit.Text + '<|>' + Password_Edit.Text + '<|END|>');
+  frm_Main.Main_Socket.Socket.SendText('<|CHECKIDPASSWORD|>' + AnsiString(frm_Main.TargetID_MaskEdit.Text) + '<|>' + AnsiString(Password_Edit.Text) + '<|END|>');
   Canceled := false;
   Close;
 end;

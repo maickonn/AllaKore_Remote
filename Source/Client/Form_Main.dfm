@@ -13,12 +13,10 @@ object frm_Main: Tfrm_Main
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   StyleElements = [seFont, seClient]
   OnClose = FormClose
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object TopBackground_Image: TImage
     Left = 0
@@ -3963,8 +3961,6 @@ object frm_Main: Tfrm_Main
       3B992A2AEBCE27D5637601B4909C87CD9B9EE4E9ED7FB28E364D889201950000
       000049454E44AE426082}
     Stretch = True
-    ExplicitLeft = 24
-    ExplicitTop = 32
   end
   object Logo_Image: TImage
     Left = 0

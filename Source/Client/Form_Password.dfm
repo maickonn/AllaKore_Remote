@@ -12,13 +12,11 @@ object frm_Password: Tfrm_Password
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   StyleElements = [seFont, seClient]
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object BackgroundTop_Image: TImage
     Left = 0
@@ -3963,7 +3961,6 @@ object frm_Password: Tfrm_Password
       3B992A2AEBCE27D5637601B4909C87CD9B9EE4E9ED7FB28E364D889201950000
       000049454E44AE426082}
     Stretch = True
-    ExplicitLeft = 8
   end
   object PasswordIcon_Image: TImage
     Left = 8

@@ -81,7 +81,7 @@ begin
         Chat_RichEdit.SelText := #13 + '   •   ' + YourText_Edit.Text;
       end;
 
-      frm_main.Main_Socket.Socket.SendText('<|REDIRECT|><|CHAT|>' + YourText_Edit.Text + '<|END|>');
+      frm_main.Main_Socket.Socket.SendText('<|REDIRECT|><|CHAT|>' + AnsiString(YourText_Edit.Text) + '<|END|>');
       YourText_Edit.Clear;
       SendMessage(Chat_RichEdit.Handle, WM_VSCROLL, SB_BOTTOM, 0);
     end;

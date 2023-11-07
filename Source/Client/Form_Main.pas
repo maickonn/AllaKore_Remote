@@ -1,5 +1,6 @@
 ﻿{
-  This source has created by Maickonn Richard & Gabriel Stilben.
+
+  This source has created by Maickonn Richard & Gabriel Stilben.
   Any questions, contact-me: maickonnrichard@gmail.com
 
   My Github: https://www.github.com/Maickonn
@@ -304,7 +305,7 @@ begin
         if not(OldClipboardText = Clipboard.AsText) then
         begin
           OldClipboardText := Clipboard.AsText;
-          Main_Socket.Socket.SendText('<|REDIRECT|><|CLIPBOARD|>' + Clipboard.AsText + '<|END|>');
+          Main_Socket.Socket.SendText('<|REDIRECT|><|CLIPBOARD|>' + AnsiString(Clipboard.AsText) + '<|END|>');
         end;
       end;
     except
@@ -338,8 +339,8 @@ var
   ReturnStr: string;
 begin
   ReturnStr := '';
+  FindHandle := FindFirstFile(PChar(Directory + '*.*'), Searchrec);
   try
-    FindHandle := FindFirstFile(PChar(Directory + '*.*'), Searchrec);
     if FindHandle <> INVALID_HANDLE_VALUE then
       repeat
         FileName := Searchrec.cFileName;
@@ -487,13 +488,14 @@ var
   outbuffer: Pointer;
   count, outcount: longint;
 begin
-  Result := False;
+  //Result := False;
   InputStream := TMemoryStream.Create;
-
+  count := 0;
+  inbuffer := nil;
   try
     InputStream.LoadFromStream(SrcStream);
     count := InputStream.Size;
-    getmem(inbuffer, count);
+    GetMem(inbuffer, count);
     InputStream.ReadBuffer(inbuffer^, count);
     zcompress(inbuffer, count, outbuffer, outcount, zcDefault);
     SrcStream.Clear;
@@ -501,7 +503,8 @@ begin
     Result := true;
   finally
     FreeAndNil(InputStream);
-    FreeMem(inbuffer, count);
+    if (inbuffer <> nil) and (count > 0) then
+      FreeMem(inbuffer, count);
     FreeMem(outbuffer, outcount);
   end;
 end;
@@ -515,9 +518,10 @@ var
   count: longint;
   outcount: longint;
 begin
-  Result := False;
+  //Result := False;
   InputStream := TMemoryStream.Create;
-
+  count := 0;
+  inbuffer := nil;
   try
     InputStream.LoadFromStream(SrcStream);
     count := InputStream.Size;
@@ -529,7 +533,8 @@ begin
     Result := true;
   finally
     FreeAndNil(InputStream);
-    FreeMem(inbuffer, count);
+    if (inbuffer <> nil) and (count > 0) then
+      FreeMem(inbuffer, count);
     FreeMem(outbuffer, outcount);
   end;
 end;
@@ -547,7 +552,7 @@ begin
       MessageBox(0, 'You can not connect with yourself!', 'AllaKore Remote', MB_ICONASTERISK + MB_TOPMOST)
     else
     begin
-      Main_Socket.Socket.SendText('<|FINDID|>' + TargetID_MaskEdit.Text + '<|END|>');
+      Main_Socket.Socket.SendText('<|FINDID|>' + AnsiString(TargetID_MaskEdit.Text) + '<|END|>');
       TargetID_MaskEdit.Enabled := False;
       Connect_BitBtn.Enabled := False;
       Status_Image.Picture.Assign(Image1.Picture);
@@ -559,7 +564,7 @@ end;
 procedure Tfrm_Main.Desktop_SocketConnect(Sender: TObject; Socket: TCustomWinSocket);
 begin
   // If connected, then send MyID for identification on Server
-  Socket.SendText('<|DESKTOPSOCKET|>' + MyID + '<|END|>');
+  Socket.SendText('<|DESKTOPSOCKET|>' + AnsiString(MyID) + '<|END|>');
   Thread_Connection_Desktop := TThread_Connection_Desktop.Create(Socket);
 end;
 
@@ -570,7 +575,7 @@ end;
 
 procedure Tfrm_Main.Files_SocketConnect(Sender: TObject; Socket: TCustomWinSocket);
 begin
-  Socket.SendText('<|FILESSOCKET|>' + MyID + '<|END|>');
+  Socket.SendText('<|FILESSOCKET|>' + AnsiString(MyID) + '<|END|>');
   Thread_Connection_Files := TThread_Connection_Files.Create(Socket);
 end;
 
@@ -596,7 +601,7 @@ begin
 
   // Reads two exe params - host and port. If not supplied uses constants. to use: client.exe HOST PORT, for ex. AllaKore_Remote_Client.exe 192.168.16.201 3398
   if (ParamStr(1) <> '') then
-    _Host := ParamStr(1)
+    _Host := AnsiString(ParamStr(1))
   else
     _Host := Host;
 
@@ -613,7 +618,7 @@ begin
   Main_Socket.OnConnect := Main_SocketConnect;
   Main_Socket.OnDisconnect := Main_SocketDisconnect;
   Main_Socket.OnError := Main_SocketError;
-  Main_Socket.Host := _Host;
+  Main_Socket.Host := String(_Host);
   Main_Socket.Port := _Port;
 
   Desktop_Socket := TClientSocket.Create(self);
@@ -621,7 +626,7 @@ begin
   Desktop_Socket.ClientType := ctNonBlocking;
   Desktop_Socket.OnConnect := Desktop_SocketConnect;
   Desktop_Socket.OnError := Desktop_SocketError;
-  Desktop_Socket.Host := _Host;
+  Desktop_Socket.Host := String(_Host);
   Desktop_Socket.Port := _Port;
 
   Keyboard_Socket := TClientSocket.Create(self);
@@ -629,7 +634,7 @@ begin
   Keyboard_Socket.ClientType := ctNonBlocking;
   Keyboard_Socket.OnConnect := Keyboard_SocketConnect;
   Keyboard_Socket.OnError := Keyboard_SocketError;
-  Keyboard_Socket.Host := _Host;
+  Keyboard_Socket.Host := String(_Host);
   Keyboard_Socket.Port := _Port;
 
   Files_Socket := TClientSocket.Create(self);
@@ -637,7 +642,7 @@ begin
   Files_Socket.ClientType := ctNonBlocking;
   Files_Socket.OnConnect := Files_SocketConnect;
   Files_Socket.OnError := Files_SocketError;
-  Files_Socket.Host := _Host;
+  Files_Socket.Host := String(_Host);
   Files_Socket.Port := _Port;
 
   ResolutionTargetWidth := 986;
@@ -651,7 +656,7 @@ end;
 
 procedure Tfrm_Main.Keyboard_SocketConnect(Sender: TObject; Socket: TCustomWinSocket);
 begin
-  Socket.SendText('<|KEYBOARDSOCKET|>' + MyID + '<|END|>');
+  Socket.SendText('<|KEYBOARDSOCKET|>' + AnsiString(MyID) + '<|END|>');
   Thread_Connection_Keyboard := TThread_Connection_Keyboard.Create(Socket);
 end;
 
@@ -749,7 +754,6 @@ var
   Buffer: string;
   BufferTemp: string;
   Extension: string;
-  i: Integer;
   Position: Integer;
   MousePosX: Integer;
   MousePosY: Integer;
@@ -761,7 +765,6 @@ begin
   inherited;
 
   FoldersAndFiles := nil;
-  FileToUpload := nil;
 
   while Socket.Connected do
   begin
@@ -773,7 +776,7 @@ begin
     if Socket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := Socket.ReceiveText;
+    Buffer := String(Socket.ReceiveText);
 
     // Received data, then resets the timeout
     Timeout := 0;
@@ -905,7 +908,7 @@ begin
           frm_Main.ClearConnection;
           frm_RemoteScreen.Show;
           frm_Main.Hide;
-          Socket.SendText('<|RELATION|>' + frm_Main.MyID + '<|>' + frm_Main.TargetID_MaskEdit.Text + '<|END|>');
+          Socket.SendText('<|RELATION|>' + AnsiString(frm_Main.MyID) + '<|>' + AnsiString(frm_Main.TargetID_MaskEdit.Text) + '<|END|>');
         end);
     end;
 
@@ -1127,7 +1130,7 @@ begin
       BufferTemp := Buffer;
       Delete(BufferTemp, 1, Position + 13);
       BufferTemp := Copy(BufferTemp, 1, Pos('<|END|>', BufferTemp) - 1);
-      Socket.SendText('<|REDIRECT|><|FOLDERLIST|>' + ListFolders(BufferTemp) + '<|ENDFOLDERLIST|>');
+      Socket.SendText('<|REDIRECT|><|FOLDERLIST|>' + AnsiString(ListFolders(BufferTemp)) + '<|ENDFOLDERLIST|>');
     end;
 
     // Request Files List
@@ -1137,7 +1140,7 @@ begin
       BufferTemp := Buffer;
       Delete(BufferTemp, 1, Position + 11);
       BufferTemp := Copy(BufferTemp, 1, Pos('<|END|>', BufferTemp) - 1);
-      Socket.SendText('<|REDIRECT|><|FILESLIST|>' + ListFiles(BufferTemp, '*.*') + '<|ENDFILESLIST|>');
+      Socket.SendText('<|REDIRECT|><|FILESLIST|>' + AnsiString(ListFiles(BufferTemp, '*.*')) + '<|ENDFILESLIST|>');
     end;
 
     // Receive Folder List
@@ -1150,7 +1153,7 @@ begin
           Break;
 
         if Socket.ReceiveLength > 0 then
-          Buffer := Buffer + Socket.ReceiveText;
+          Buffer := Buffer + String(Socket.ReceiveText);
 
         Sleep(ProcessingSlack);
       end;
@@ -1186,7 +1189,7 @@ begin
         end);
 
       FreeAndNil(FoldersAndFiles);
-      Socket.SendText('<|REDIRECT|><|GETFILES|>' + frm_ShareFiles.Directory_Edit.Text + '<|END|>');
+      Socket.SendText('<|REDIRECT|><|GETFILES|>' + AnsiString(frm_ShareFiles.Directory_Edit.Text) + '<|END|>');
     end;
 
     // Receive Files List
@@ -1199,7 +1202,7 @@ begin
           Break;
 
         if Socket.ReceiveLength > 0 then
-          Buffer := Buffer + Socket.ReceiveText;
+          Buffer := Buffer + String(Socket.ReceiveText);
 
         Sleep(ProcessingSlack);
       end;
@@ -1292,7 +1295,7 @@ begin
           frm_ShareFiles.SizeUpload_Label.Caption := 'Size: 0 B / 0 B';
         end);
 
-      frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|GETFOLDERS|>' + frm_ShareFiles.Directory_Edit.Text + '<|END|>');
+      frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|GETFOLDERS|>' + AnsiString(frm_ShareFiles.Directory_Edit.Text) + '<|END|>');
 
       Synchronize(
         procedure
@@ -1308,8 +1311,12 @@ begin
       Delete(BufferTemp, 1, Position + 15);
       BufferTemp := Copy(BufferTemp, 1, Pos('<|END|>', BufferTemp) - 1);
       FileToUpload := TFileStream.Create(BufferTemp, fmOpenRead);
-      frm_Main.Files_Socket.Socket.SendText('<|SIZE|>' + IntToStr(FileToUpload.Size) + '<|END|>');
-      frm_Main.Files_Socket.Socket.SendStream(FileToUpload);
+      try
+        frm_Main.Files_Socket.Socket.SendText('<|SIZE|>' + AnsiString(IntToStr(FileToUpload.Size)) + '<|END|>');
+        frm_Main.Files_Socket.Socket.SendStream(FileToUpload);
+      finally
+        FileToUpload.Free;
+      end;
     end;
   end;
 end;
@@ -1329,7 +1336,7 @@ begin
     if Socket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := Socket.ReceiveText;
+    Buffer := String(Socket.ReceiveText);
 
     // EUREKA: This is the responsable to interact with UAC. But we need run
     // the software on SYSTEM account to work.
@@ -1424,7 +1431,7 @@ begin
     if Socket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := Buffer + Socket.ReceiveText; // Accommodates in memory all images that are being received and not processed. This helps in smoothing and mapping so that changes in the wrong places do not occur.
+    Buffer := Buffer + String(Socket.ReceiveText); // Accommodates in memory all images that are being received and not processed. This helps in smoothing and mapping so that changes in the wrong places do not occur.
 
     Position := Pos('<|GETFULLSCREENSHOT|>', Buffer);
     if Position > 0 then
@@ -1432,7 +1439,7 @@ begin
       Delete(Buffer, 1, Position + 20);
       ResolutionWidth := Screen.Width;
       ResolutionHeight := Screen.Height;
-      frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|RESOLUTION|>' + IntToStr(Screen.Width) + '<|>' + IntToStr(Screen.Height) + '<|END|>');
+      frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|RESOLUTION|>' + AnsiString(IntToStr(Screen.Width)) + '<|>' + AnsiString(IntToStr(Screen.Height)) + '<|END|>');
 
       MyFirstBmp.Clear;
       UnPackStream.Clear;
@@ -1482,7 +1489,7 @@ begin
 
         // Check if the resolution has been changed
         if MyFirstBmp.Size <> MySecondBmp.Size then
-          frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|RESOLUTION|>' + IntToStr(Screen.Width) + '<|>' + IntToStr(Screen.Height) + '<|END|>');
+          frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|RESOLUTION|>' + AnsiString(IntToStr(Screen.Width)) + '<|>' + AnsiString(IntToStr(Screen.Height)) + '<|END|>');
 
         CompareStream(MyFirstBmp, MySecondBmp, MyCompareBmp);
         MyCompareBmp.Position := 0;
@@ -1586,7 +1593,7 @@ begin
     if Socket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := Socket.ReceiveText;
+    Buffer := String(Socket.ReceiveText);
 
     if not(ReceivingFile) then
     begin
@@ -1640,7 +1647,7 @@ begin
       end
       else
       begin
-        while frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|UPLOADPROGRESS|>' + IntToStr(FileStream.Size) + '<|END|>') < 0 do
+        while frm_Main.Main_Socket.Socket.SendText('<|REDIRECT|><|UPLOADPROGRESS|>' + AnsiString(IntToStr(FileStream.Size)) + '<|END|>') < 0 do
           Sleep(ProcessingSlack);
       end;
 
@@ -1674,4 +1681,4 @@ begin
 end;
 
 end.
-
+

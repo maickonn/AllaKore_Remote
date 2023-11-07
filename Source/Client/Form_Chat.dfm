@@ -11,13 +11,11 @@ object frm_Chat: Tfrm_Chat
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
-  OldCreateOrder = False
   Position = poDesigned
   ScreenSnap = True
   SnapBuffer = 50
   StyleElements = [seFont, seClient]
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object YourText_Edit: TEdit
     Left = 0
@@ -43,6 +41,5 @@ object frm_Chat: Tfrm_Chat
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 1
-    Zoom = 100
   end
 end

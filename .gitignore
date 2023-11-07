@@ -29,7 +29,8 @@
 #*.obj
 
 # Delphi compiler-generated binaries (safe to delete)
-/Bin
+/Bin32
+/Bin64
 *.dll
 *.bpl
 *.bpi
@@ -72,5 +73,7 @@ modules/
 
 # Bin folder
 [Bb]in/
+[Bb]in64/
+Win64
 
 # End of https://www.gitignore.io/api/delphi

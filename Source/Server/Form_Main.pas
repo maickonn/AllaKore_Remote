@@ -1,5 +1,6 @@
 {
-  This source has created by Maickonn Richard & Gabriel Stilben.
+
+  This source has created by Maickonn Richard & Gabriel Stilben.
   Any questions, contact-me: maickonnrichard@gmail.com
 
   My Github: https://www.github.com/Maickonn
@@ -14,8 +15,10 @@ unit Form_Main;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, ExtCtrls, AppEvnts, System.Win.ScktComp;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, System.Win.ScktComp, Vcl.Graphics, Vcl.Controls,
+  Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.AppEvnts;
 
 // Thread to Define type connection, if Main, Desktop Remote, Download or Upload Files.
 type
@@ -110,13 +113,6 @@ const
 implementation
 
 {$R *.dfm}
-
-constructor TThreadConnection_Define.Create(aSocket: TCustomWinSocket);
-begin
-  inherited Create(False);
-  defineSocket := aSocket;
-  FreeOnTerminate := true;
-end;
 
 constructor TThreadConnection_Main.Create(aSocket: TCustomWinSocket);
 begin
@@ -312,6 +308,14 @@ begin
 end;
 
 { TThreadConnection_Define }
+
+constructor TThreadConnection_Define.Create(aSocket: TCustomWinSocket);
+begin
+  inherited Create(False);
+  defineSocket := aSocket;
+  FreeOnTerminate := true;
+end;
+
 // Here it will be defined the type of connection.
 procedure TThreadConnection_Define.Execute;
 var
@@ -335,7 +339,7 @@ begin
     if defineSocket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := defineSocket.ReceiveText;
+    Buffer := String(defineSocket.ReceiveText);
 
     position := Pos('<|MAINSOCKET|>', Buffer); // Storing the position in an integer variable will prevent it from having to perform two searches, gaining more performance
     if position > 0 then
@@ -414,7 +418,7 @@ begin
   L := frm_Main.Connections_ListView.FindCaption(0, IntToStr(mainSocket.Handle), False, true, False);
   L.SubItems.Objects[0] := TObject(self);
 
-  while mainSocket.SendText('<|ID|>' + ID + '<|>' + Password + '<|END|>') < 0 do
+  while mainSocket.SendText('<|ID|>' + AnsiString(ID) + '<|>' + AnsiString(Password) + '<|END|>') < 0 do
     Sleep(ProcessingSlack);
 
   while true do
@@ -427,7 +431,7 @@ begin
     if mainSocket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := mainSocket.ReceiveText;
+    Buffer := String(mainSocket.ReceiveText);
 
     position := Pos('<|FINDID|>', Buffer);
     if position > 0 then
@@ -545,7 +549,7 @@ begin
           if (Pos('<|ENDFOLDERLIST|>', BufferTemp) > 0) then
             break;
 
-          BufferTemp := BufferTemp + mainSocket.ReceiveText;
+          BufferTemp := BufferTemp + String(mainSocket.ReceiveText);
         end;
       end;
 
@@ -558,13 +562,13 @@ begin
           if (Pos('<|ENDFILESLIST|>', BufferTemp) > 0) then
             break;
 
-          BufferTemp := BufferTemp + mainSocket.ReceiveText;
+          BufferTemp := BufferTemp + String(mainSocket.ReceiveText);
         end;
       end;
 
       if (targetMainSocket <> nil) and (targetMainSocket.Connected) then
       begin
-        while targetMainSocket.SendText(BufferTemp) < 0 do
+        while targetMainSocket.SendText(AnsiString(BufferTemp)) < 0 do
           Sleep(ProcessingSlack);
       end;
     end;
@@ -635,11 +639,11 @@ begin
     if desktopSocket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := desktopSocket.ReceiveText;
+    Buffer := String(desktopSocket.ReceiveText);
 
     if (targetDesktopSocket <> nil) and (targetDesktopSocket.Connected) then
     begin
-      while targetDesktopSocket.SendText(Buffer) < 0 do
+      while targetDesktopSocket.SendText(AnsiString(Buffer)) < 0 do
         Sleep(ProcessingSlack);
     end;
   end;
@@ -666,11 +670,11 @@ begin
     if keyboardSocket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := keyboardSocket.ReceiveText;
+    Buffer := String(keyboardSocket.ReceiveText);
 
     if (targetKeyboardSocket <> nil) and (targetKeyboardSocket.Connected) then
     begin
-      while targetKeyboardSocket.SendText(Buffer) < 0 do
+      while targetKeyboardSocket.SendText(AnsiString(Buffer)) < 0 do
         Sleep(ProcessingSlack);
     end;
   end;
@@ -698,11 +702,11 @@ begin
     if filesSocket.ReceiveLength < 1 then
       Continue;
 
-    Buffer := filesSocket.ReceiveText;
+    Buffer := String(filesSocket.ReceiveText);
 
     if (targetFilesSocket <> nil) and (targetFilesSocket.Connected) then
     begin
-      while targetFilesSocket.SendText(Buffer) < 0 do
+      while targetFilesSocket.SendText(AnsiString(Buffer)) < 0 do
         Sleep(ProcessingSlack);
     end;
   end;
@@ -727,7 +731,7 @@ begin
       Connection.StartPing := GetTickCount;
 
       if Connections_ListView.Items.Item[i].SubItems[4] <> 'Calculating...' then
-        Connection.mainSocket.SendText('<|SETPING|>' + IntToStr(Connection.EndPing) + '<|END|>');
+        Connection.mainSocket.SendText('<|SETPING|>' + AnsiString(IntToStr(Connection.EndPing)) + '<|END|>');
     end;
   except
     On E: Exception do

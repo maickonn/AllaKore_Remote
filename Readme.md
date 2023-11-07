@@ -1,16 +1,15 @@
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N9LKUWQFK6YZ4)
 
+# AllaKore-Remote
 
-	This source has created by Maickonn Richard & Gabriel Stilben.
-	Any questions, contact-me: maickonnrichard@gmail.com
+This source has created by Maickonn Richard & Gabriel Stilben.
+Any questions, contact-me: maickonnrichard@gmail.com
 
-	My Github: https://www.github.com/Maickonn
+My Github: https://www.github.com/Maickonn
 	
-	Join our Facebook group: https://www.facebook.com/groups/1202680153082328/
+Join our Facebook group: https://www.facebook.com/groups/1202680153082328/
 
-	AllaKore Remote is a Remote Access software open source written in Delphi Seattle.
-
-
------------------------------------------------------------------------
+AllaKore Remote is a Remote Access software open source written in Delphi Seattle.
 
 
 First of all, I apologize for my English because it is not my native language. I live in Brazil. :D

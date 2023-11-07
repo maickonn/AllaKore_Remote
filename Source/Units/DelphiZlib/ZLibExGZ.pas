@@ -882,7 +882,7 @@ var
   size     : Integer;
   c        : AnsiChar;
 begin
-  result := 0;
+  //result := 0;
 
   position := inStream.Position;
 
@@ -1020,7 +1020,7 @@ procedure GZCompressFile(const inFileName, outFileName: String;
 var
   fileName: AnsiString;
 begin
-  fileName := ExtractFilename(inFileName);
+  fileName := AnsiString(ExtractFilename(String(inFileName)));
 
   GZCompressFile(inFileName, outFileName, fileName, '');
 end;

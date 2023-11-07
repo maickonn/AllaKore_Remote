@@ -11,12 +11,10 @@ object frm_ShareFiles: Tfrm_ShareFiles
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
-  OldCreateOrder = False
   Position = poScreenCenter
   StyleElements = [seFont, seClient]
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object ShareFiles_ListView: TListView
     Left = 0
@@ -55,7 +53,6 @@ object frm_ShareFiles: Tfrm_ShareFiles
       Height = 13
       Anchors = [akRight, akBottom]
       Caption = 'Upload Progress:'
-      ExplicitTop = 98
     end
     object DownloadProgress_Label: TLabel
       Left = 483
@@ -64,7 +61,6 @@ object frm_ShareFiles: Tfrm_ShareFiles
       Height = 13
       Anchors = [akRight, akBottom]
       Caption = 'Download Progress:'
-      ExplicitTop = 56
     end
     object Directory_Label: TLabel
       Left = 8
@@ -80,7 +76,6 @@ object frm_ShareFiles: Tfrm_ShareFiles
       Height = 9
       Anchors = [akLeft, akTop, akRight]
       Shape = bsTopLine
-      ExplicitWidth = 595
     end
     object SizeDownload_Label: TLabel
       Left = 585

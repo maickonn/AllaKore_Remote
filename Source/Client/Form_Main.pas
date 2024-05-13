@@ -1,16 +1,4 @@
-﻿{
-
-  This source has created by Maickonn Richard & Gabriel Stilben.
-  Any questions, contact-me: maickonnrichard@gmail.com
-
-  My Github: https://www.github.com/Maickonn
-
-  Join our Facebook group: https://www.facebook.com/groups/1202680153082328/
-
-  Are totally free!
-}
-
-{$R ResFile.res}
+﻿{$R ResFile.res}
 unit Form_Main;
 
 interface
@@ -19,7 +7,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Buttons, System.Win.ScktComp, Vcl.AppEvnts, Vcl.ComCtrls, Winapi.MMSystem,
-  Registry, Vcl.Menus, Vcl.Mask, Clipbrd, sndkey32, StreamManager, zLibEx;
+  Registry, Vcl.Menus, Vcl.Mask, Clipbrd, sndkey32, StreamManager, zLibEx, ShellApi;
 
 type
   TThread_Connection_Main = class(TThread)
@@ -229,7 +217,7 @@ end;
 
 procedure Tfrm_Main.About_BitBtnClick(Sender: TObject);
 begin
-  MessageBox(0, 'This software has created by Maickonn Richard & Gabriel Stilben. And source code are free!' + #13 + #13'Any questions, contact-me: maickonnrichard@gmail.com' + #13#13 + 'My Github: https://www.github.com/Maickonn', 'About AllaKore Remote', MB_ICONASTERISK + MB_TOPMOST);
+  ShellExecute(0, 'open', 'https://github.com/maickonn/AllaKore_Remote', nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure Tfrm_Main.ClearConnection;

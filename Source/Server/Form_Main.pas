@@ -1,15 +1,3 @@
-{
-
-  This source has created by Maickonn Richard & Gabriel Stilben.
-  Any questions, contact-me: maickonnrichard@gmail.com
-
-  My Github: https://www.github.com/Maickonn
-
-  Join our Facebook group: https://www.facebook.com/groups/1202680153082328/
-
-  Are totally free!
-}
-
 unit Form_Main;
 
 interface

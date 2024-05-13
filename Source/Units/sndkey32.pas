@@ -1,7 +1,7 @@
 (*
   SendKeys routine for 32-bit Delphi.
 
-  Written by Ken Henderson and adapted for AllaKore Remote by Maickonn Richard.
+  Written by Ken Henderson and adapted for AllaKore Remote.
 
   Copyright (c) 1995 Ken Henderson
 

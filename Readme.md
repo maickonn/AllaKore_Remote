@@ -1,26 +1,18 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N9LKUWQFK6YZ4)
 
-# AllaKore-Remote
+# Discontinuation Notice
+
+Attention, this project has been discontinued and is thus being archived. However, there are some highly promising forks that are quite advanced and feature-rich. We recommend checking out [Aegys](https://github.com/OpenSourceCommunityBrasil/Aegys-Acesso-Remoto), which is actively developed by the Open Source Community Brazil.
+
+# AllaKore Remote
 
 This source has created by Maickonn Richard & Gabriel Stilben.
-Any questions, contact-me: maickonnrichard@gmail.com
-
-My Github: https://www.github.com/Maickonn
-	
-Join our Facebook group: https://www.facebook.com/groups/1202680153082328/
 
 AllaKore Remote is a Remote Access software open source written in Delphi Seattle.
 
-
-First of all, I apologize for my English because it is not my native language. I live in Brazil. :D
-
+I apologize for my English because it is not my native language. :D
 
 ----
 **All components used are native to Delphi itself.**
-
-**Now the project is 100% compatible with Delphi Seattle.**
-----
-
 
 <strong>There are some observations to be taken before opening the project:</strong>
 
